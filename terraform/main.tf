@@ -9,6 +9,8 @@ terraform {
 provider "aws" {
   region = "us-east-1"
 }
-resource "aws_s3_bucket" "lab" {
-  bucket = "senior-platform-engineer-bootcamp-2026"
+module "application_bucket" {
+  source = "./modules/s3-bucket"
+
+  bucket_name = var.bucket_name
 }

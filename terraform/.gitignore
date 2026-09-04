@@ -3,7 +3,7 @@
 
 # Terraform state
 *.tfstate
-*.tfstate.*
+*.tfstate.backup
 
 # Crash logs
 crash.log
