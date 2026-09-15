@@ -6,3 +6,4 @@ Git remote workflow practice
 Engineer B - infrastructure update
 Engineer A - network configuration
 Engineer A - network validation
+Engineer B - security review
