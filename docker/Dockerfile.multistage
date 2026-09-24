@@ -1,0 +1,8 @@
+FROM alpine:3.22 AS builder
+
+RUN echo "Hello from the builder stage" > /artifact.txt
+
+
+FROM nginx:alpine
+
+COPY --from=builder /artifact.txt /usr/share/nginx/html/artifact.txt

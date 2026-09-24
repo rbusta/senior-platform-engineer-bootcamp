@@ -1,0 +1,40 @@
+name: Docker CI
+
+on:
+  push:
+    paths:
+      - 'docker/**'
+      - '.github/workflows/docker-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./docker
+          file: ./docker/Dockerfile
+          push: false
+          tags: rodo-nginx:ci
+
+      - name: Run Container
+        run: |
+          docker run -d --name rodo-ci -p 8080:80 rodo-nginx:ci
+          trap 'docker rm -f rodo-ci' EXIT
+
+          for i in {1..10}; do
+            if curl --fail http://localhost:8080; then
+              exit 0
+            fi
+            sleep 1
+          done
+
+          exit 1
